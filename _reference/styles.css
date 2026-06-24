@@ -1,0 +1,156 @@
+/**
+ * TEMPLATE styles — every rule scoped under :where(.theme-TEMPLATE_ID)
+ * so it cannot leak to dashboard / other themes.
+ *
+ * Mobile-first. Three breakpoints to mirror the rest of the engine:
+ *   • base    — 320px and up
+ *   • 640px   — small tablet / large phone
+ *   • 960px   — laptop / small desktop
+ *   • 1200px  — wide desktop
+ */
+
+:where(.theme-TEMPLATE_ID) {
+  /* Design tokens — change these to re-skin the whole theme. */
+  --tpl-bg: #ffffff;
+  --tpl-ink: #111111;
+  --tpl-muted: #6b7280;
+  --tpl-line: #e5e7eb;
+  --tpl-primary: #2563eb;
+  --tpl-sale: #dc2626;
+
+  background: var(--tpl-bg);
+  color: var(--tpl-ink);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+:where(.theme-TEMPLATE_ID) .tpl-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+:where(.theme-TEMPLATE_ID) .tpl-section { padding: 48px 16px; }
+
+/* Buttons */
+:where(.theme-TEMPLATE_ID) .tpl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--tpl-ink);
+  color: var(--tpl-bg);
+  border: 1px solid var(--tpl-ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+:where(.theme-TEMPLATE_ID) .tpl-btn:hover { opacity: 0.85; }
+:where(.theme-TEMPLATE_ID) .tpl-btn--ghost {
+  background: transparent;
+  color: var(--tpl-ink);
+}
+
+/* Nav */
+:where(.theme-TEMPLATE_ID) .tpl-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--tpl-bg);
+  border-bottom: 1px solid var(--tpl-line);
+}
+:where(.theme-TEMPLATE_ID) .tpl-nav__bar {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+:where(.theme-TEMPLATE_ID) .tpl-nav__brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--tpl-ink);
+  text-decoration: none;
+}
+:where(.theme-TEMPLATE_ID) .tpl-nav__links { display: none; gap: 24px; }
+:where(.theme-TEMPLATE_ID) .tpl-nav__links a {
+  color: var(--tpl-ink);
+  text-decoration: none;
+  font-size: 14px;
+}
+:where(.theme-TEMPLATE_ID) .tpl-nav__icons { display: flex; gap: 8px; align-items: center; }
+:where(.theme-TEMPLATE_ID) .tpl-nav__icon {
+  width: 36px; height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  color: var(--tpl-ink);
+  cursor: pointer;
+  position: relative;
+}
+:where(.theme-TEMPLATE_ID) .tpl-nav__badge {
+  position: absolute;
+  top: 4px; right: 4px;
+  background: var(--tpl-primary);
+  color: #fff;
+  min-width: 16px; height: 16px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Product grid */
+:where(.theme-TEMPLATE_ID) .tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+:where(.theme-TEMPLATE_ID) .tpl-card { text-decoration: none; color: var(--tpl-ink); display: block; }
+:where(.theme-TEMPLATE_ID) .tpl-card__media {
+  aspect-ratio: 3 / 4;
+  background: var(--tpl-line);
+  overflow: hidden;
+  position: relative;
+}
+:where(.theme-TEMPLATE_ID) .tpl-card__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+:where(.theme-TEMPLATE_ID) .tpl-card__name { margin: 12px 0 4px; font-size: 14px; font-weight: 500; }
+:where(.theme-TEMPLATE_ID) .tpl-card__price { font-size: 14px; color: var(--tpl-muted); }
+:where(.theme-TEMPLATE_ID) .tpl-card__price s { margin-left: 8px; }
+
+/* Footer */
+:where(.theme-TEMPLATE_ID) .tpl-foot {
+  background: #111;
+  color: #ccc;
+  padding: 40px 16px 24px;
+}
+:where(.theme-TEMPLATE_ID) .tpl-foot__grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+:where(.theme-TEMPLATE_ID) .tpl-foot a { color: #ccc; text-decoration: none; display: block; padding: 4px 0; }
+:where(.theme-TEMPLATE_ID) .tpl-foot h4 { color: #fff; margin: 0 0 12px; }
+
+/* Breakpoints */
+@media (min-width: 640px) {
+  :where(.theme-TEMPLATE_ID) .tpl-grid { grid-template-columns: repeat(3, 1fr); }
+  :where(.theme-TEMPLATE_ID) .tpl-foot__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  :where(.theme-TEMPLATE_ID) .tpl-nav__links { display: flex; }
+  :where(.theme-TEMPLATE_ID) .tpl-grid { grid-template-columns: repeat(4, 1fr); }
+  :where(.theme-TEMPLATE_ID) .tpl-foot__grid { grid-template-columns: repeat(4, 1fr); }
+}
