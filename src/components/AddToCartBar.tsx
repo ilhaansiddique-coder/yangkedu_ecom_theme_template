@@ -1,43 +1,48 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { ShoppingCart, Zap } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useCartUI } from "@/lib/cart-ui";
-import { useProductBuy } from "@/lib/product-buy";
+import { useProductBuy, lineFor } from "@/lib/product-buy";
 import { money } from "@/lib/format";
 import type { Product } from "@/lib/products";
 
-/** Fixed bottom action bar on the product page (mobile only). */
+/** Sticky mobile footer bar (price + Add to Cart + Buy Now), pinned while scrolling. */
 export default function AddToCartBar({ product }: { product: Product }) {
   const { add } = useCart();
   const { openCart } = useCartUI();
   const { qty, variantLabel } = useProductBuy();
+  const router = useRouter();
 
-  const suffix = variantLabel ? ` (${variantLabel})` : "";
-  const id = product.id + (variantLabel ? `::${variantLabel}` : "");
-  const base = { id, name: product.name + suffix, image: product.image };
-
-  function buy(price: number) {
-    add({ ...base, price }, qty);
+  function addToCart() {
+    add({ ...lineFor(product, variantLabel), price: product.price }, qty);
     openCart();
+  }
+  function buyNow() {
+    add({ ...lineFor(product, variantLabel), price: product.price }, qty);
+    router.push("/checkout");
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 mx-auto flex max-w-[480px] items-center gap-2 border-t border-line bg-white p-2 pb-[calc(8px+var(--safe-bottom))] lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 mx-auto flex max-w-[480px] items-center gap-2 border-t border-line bg-white px-3 py-2 pb-[calc(8px+var(--safe-bottom))] lg:hidden">
+      <div className="shrink-0 pr-1">
+        <span className="block font-display text-[18px] font-extrabold leading-none text-price">{money(product.price)}</span>
+        <span className="block text-[11px] text-muted line-through">{money(product.singlePrice)}</span>
+      </div>
       <button
         type="button"
-        onClick={() => buy(product.singlePrice)}
-        className="flex flex-1 flex-col items-center rounded-l-full bg-brand-orange py-2 text-white"
+        onClick={addToCart}
+        className="flex flex-1 items-center justify-center gap-1.5 rounded-full border-2 border-brand py-2.5 text-[14px] font-semibold text-brand"
       >
-        <span className="text-[15px] font-bold leading-none">{money(product.singlePrice)}</span>
-        <span className="text-[11px] leading-tight">Buy alone</span>
+        <ShoppingCart size={16} /> Add to Cart
       </button>
       <button
         type="button"
-        onClick={() => buy(product.price)}
-        className="flex flex-1 flex-col items-center rounded-r-full bg-gradient-to-r from-[#fb5621] to-[#e8290b] py-2 text-white"
+        onClick={buyNow}
+        className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#fb5621] to-[#e8290b] py-2.5 text-[14px] font-bold text-white"
       >
-        <span className="text-[15px] font-bold leading-none">{money(product.price)}</span>
-        <span className="text-[11px] leading-tight">Start group buy</span>
+        <Zap size={16} /> Buy Now
       </button>
     </div>
   );

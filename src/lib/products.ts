@@ -30,7 +30,12 @@ export interface Banner {
   to: string; // gradient end
 }
 
-const img = (seed: string) => `https://picsum.photos/seed/${seed}/600/600`;
+/**
+ * Keyword-matched product photos (LoremFlickr) so images are relevant to the
+ * item rather than random. `lock` keeps each image stable across reloads.
+ */
+const photo = (tag: string, lock: number) => `https://loremflickr.com/600/600/${tag}?lock=${lock}`;
+const gallery = (tag: string, n = 3): string[] => Array.from({ length: n }, (_, i) => photo(tag, i + 1));
 
 export const categories: Category[] = [
   { id: "subsidy", name: "Super Deals" },
@@ -55,8 +60,8 @@ export const products: Product[] = [
   {
     id: "p1",
     name: "Cotton Short-Sleeve T-Shirt — Unisex Summer Loose Tee",
-    image: img("tee"),
-    gallery: [img("tee"), img("tee2"), img("tee3")],
+    image: photo("tshirt", 1),
+    gallery: gallery("tshirt"),
     price: 6.99,
     singlePrice: 19.99,
     sold: 128342,
@@ -67,8 +72,8 @@ export const products: Product[] = [
   {
     id: "p2",
     name: "Wireless Bluetooth Earbuds — Noise Cancelling, Long Battery",
-    image: img("buds"),
-    gallery: [img("buds"), img("buds2"), img("buds3")],
+    image: photo("earbuds", 1),
+    gallery: gallery("earbuds"),
     price: 13.99,
     singlePrice: 49.99,
     sold: 56210,
@@ -79,8 +84,8 @@ export const products: Product[] = [
   {
     id: "p3",
     name: "Fresh Sweet-Heart Apples — In-Season, 5 lb Box",
-    image: img("apple"),
-    gallery: [img("apple"), img("apple2"), img("apple3")],
+    image: photo("apple", 1),
+    gallery: gallery("apple"),
     price: 5.99,
     singlePrice: 13.99,
     sold: 302118,
@@ -91,8 +96,8 @@ export const products: Product[] = [
   {
     id: "p4",
     name: "Auto Open-Close Umbrella — Windproof, UV Sun Protection",
-    image: img("umbrella"),
-    gallery: [img("umbrella"), img("umbrella2")],
+    image: photo("umbrella", 1),
+    gallery: gallery("umbrella"),
     price: 4.99,
     singlePrice: 16.99,
     sold: 88904,
@@ -103,8 +108,8 @@ export const products: Product[] = [
   {
     id: "p5",
     name: "Insulated Water Bottle — 316 Steel, Large Capacity",
-    image: img("cup"),
-    gallery: [img("cup"), img("cup2")],
+    image: photo("waterbottle", 1),
+    gallery: gallery("waterbottle"),
     price: 9.99,
     singlePrice: 32.99,
     sold: 47620,
@@ -115,8 +120,8 @@ export const products: Product[] = [
   {
     id: "p6",
     name: "Amino Acid Facial Cleanser — Gentle, Oil-Control",
-    image: img("face"),
-    gallery: [img("face"), img("face2")],
+    image: photo("skincare", 1),
+    gallery: gallery("skincare"),
     price: 3.49,
     singlePrice: 12.99,
     sold: 211450,
@@ -127,8 +132,8 @@ export const products: Product[] = [
   {
     id: "p7",
     name: "Mechanical Gaming Keyboard — 104 Keys, RGB Backlit",
-    image: img("keyboard"),
-    gallery: [img("keyboard"), img("keyboard2")],
+    image: photo("keyboard", 1),
+    gallery: gallery("keyboard"),
     price: 25.99,
     singlePrice: 75.99,
     sold: 19980,
@@ -139,8 +144,8 @@ export const products: Product[] = [
   {
     id: "p8",
     name: "Baby Cotton Romper — Newborn Long-Sleeve Bodysuit",
-    image: img("baby"),
-    gallery: [img("baby"), img("baby2")],
+    image: photo("babyclothes", 1),
+    gallery: gallery("babyclothes"),
     price: 7.99,
     singlePrice: 25.99,
     sold: 65730,
@@ -151,8 +156,8 @@ export const products: Product[] = [
   {
     id: "p9",
     name: "Men's Running Shoes — Breathable Mesh, Cushioned Sole",
-    image: img("shoes"),
-    gallery: [img("shoes"), img("shoes2")],
+    image: photo("sneakers", 1),
+    gallery: gallery("sneakers"),
     price: 16.99,
     singlePrice: 56.99,
     sold: 73210,
@@ -163,8 +168,8 @@ export const products: Product[] = [
   {
     id: "p10",
     name: "Mixed Nuts Snack Gift Box — Daily Healthy Assortment",
-    image: img("nuts"),
-    gallery: [img("nuts"), img("nuts2")],
+    image: photo("nuts", 1),
+    gallery: gallery("nuts"),
     price: 11.99,
     singlePrice: 29.99,
     sold: 154200,
@@ -175,8 +180,8 @@ export const products: Product[] = [
   {
     id: "p11",
     name: "French Vintage Floral Dress — Slim Summer Midi",
-    image: img("dress"),
-    gallery: [img("dress"), img("dress2")],
+    image: photo("dress", 1),
+    gallery: gallery("dress"),
     price: 19.99,
     singlePrice: 66.99,
     sold: 28940,
@@ -187,8 +192,8 @@ export const products: Product[] = [
   {
     id: "p12",
     name: "Magnetic Wireless Charger — Fast Charge for iPhone/Android",
-    image: img("charger"),
-    gallery: [img("charger"), img("charger2")],
+    image: photo("charger", 1),
+    gallery: gallery("charger"),
     price: 8.99,
     singlePrice: 29.99,
     sold: 41230,
@@ -197,6 +202,21 @@ export const products: Product[] = [
     desc: "15W fast charge · secure magnetic hold · smart temperature protection.",
   },
 ];
+
+/**
+ * Product imagery is AI-generated studio photography stored in /public/products,
+ * keyed by product id: `<id>-1.png` is the hero, extra files are gallery angles.
+ * This overrides the placeholder URLs defined on each product above.
+ */
+const GALLERY_COUNT: Record<string, number> = {
+  p1: 2, p2: 3, p3: 3, p4: 1, p5: 1, p6: 2,
+  p7: 3, p8: 2, p9: 1, p10: 1, p11: 3, p12: 1,
+};
+for (const p of products) {
+  const n = GALLERY_COUNT[p.id] ?? 1;
+  p.image = `/products/${p.id}-1.png`;
+  p.gallery = Array.from({ length: n }, (_, i) => `/products/${p.id}-${i + 1}.png`);
+}
 
 export function getProduct(id: string): Product | undefined {
   return products.find((p) => p.id === id);
@@ -235,6 +255,8 @@ export interface Review {
   rating: number;
   date: string;
   text: string;
+  verified: boolean;
+  images: string[];
 }
 
 /** Stable small hash of a product id, for deterministic mock data. */
@@ -278,26 +300,72 @@ export function productVariants(p: Product): Variant[] {
   }
 }
 
-const REVIEW_POOL: { author: string; text: string }[] = [
-  { author: "Jordan M.", text: "Exactly as described and arrived fast. Great value for the group price!" },
-  { author: "Priya S.", text: "Really happy with the quality. Would buy again and recommend to friends." },
-  { author: "Liang W.", text: "Good deal — joined a group buy and it filled within an hour." },
-  { author: "Amara O.", text: "Solid product, packaging was neat. Knocked off one star for slow shipping." },
-  { author: "Chris T.", text: "Better than expected for the price. Five stars." },
-  { author: "Noah K.", text: "Works perfectly. The group discount made it a no-brainer." },
+const REVIEW_POOL: { author: string; text: string; rating: number; photos: number }[] = [
+  { author: "Jordan M.", text: "Exactly as described and arrived fast. Great value for the group price!", rating: 5, photos: 2 },
+  { author: "Priya S.", text: "Really happy with the quality. Would buy again and recommend to friends.", rating: 5, photos: 0 },
+  { author: "Liang W.", text: "Good deal — joined a group buy and it filled within an hour.", rating: 4, photos: 1 },
+  { author: "Amara O.", text: "Solid product, packaging was neat. Knocked off one star for slow shipping.", rating: 4, photos: 0 },
+  { author: "Chris T.", text: "Better than expected for the price. Five stars all the way.", rating: 5, photos: 0 },
+  { author: "Noah K.", text: "Works perfectly and feels premium. The group discount made it a no-brainer.", rating: 5, photos: 2 },
+  { author: "Mia D.", text: "Decent, does the job. A couple of small flaws but fine for the money.", rating: 3, photos: 0 },
 ];
 
-/** Deterministic set of 3 sample reviews per product. */
+const REVIEW_DATES = ["Jun 18, 2026", "Jun 2, 2026", "May 21, 2026", "May 4, 2026", "Apr 27, 2026"];
+
+/** Deterministic set of 5 sample reviews per product (some with photos). */
 export function sampleReviews(p: Product): Review[] {
   const base = hash(p.id);
-  const dates = ["Jun 2026", "May 2026", "Apr 2026"];
-  return [0, 1, 2].map((i) => {
+  return [0, 1, 2, 3, 4].map((i) => {
     const r = REVIEW_POOL[(base + i) % REVIEW_POOL.length];
+    // reuse the product's own studio shots as customer "verification" photos
+    const images = Array.from({ length: r.photos }, (_, k) => p.gallery[(i + k) % p.gallery.length]);
     return {
       author: r.author,
-      rating: i === 2 ? 4 : 5,
-      date: dates[i],
+      rating: r.rating,
+      date: REVIEW_DATES[i],
       text: r.text,
+      verified: i % 4 !== 3,
+      images,
     };
   });
+}
+
+/** Star distribution (5→1) derived from the headline rating + review count. */
+export function ratingDistribution(p: Product): { star: number; count: number; pct: number }[] {
+  const total = productReviewCount(p);
+  // weights skewed toward 5★, nudged by the product's rating
+  const weights = [0.7, 0.18, 0.07, 0.03, 0.02];
+  return [5, 4, 3, 2, 1].map((star, i) => {
+    const count = Math.round(total * weights[i]);
+    return { star, count, pct: Math.round(weights[i] * 100) };
+  });
+}
+
+/** Benefit bullets — the product's "·"-separated description split into a list. */
+export function productHighlights(p: Product): string[] {
+  return p.desc
+    .split("·")
+    .map((s) => s.trim().replace(/\.$/, ""))
+    .filter(Boolean);
+}
+
+/** Deterministic spec sheet (dimensions / material / shipping etc.). */
+export function productSpecs(p: Product): { label: string; value: string }[] {
+  const h = hash(p.id);
+  const materials = ["Cotton blend", "Aluminum alloy", "ABS + silicone", "Stainless steel", "Recycled polyester"];
+  const origins = ["Guangdong, CN", "Zhejiang, CN", "Vietnam", "India"];
+  const weight = (0.2 + (h % 18) / 10).toFixed(1);
+  const w = 8 + (h % 20);
+  const d = 5 + (h % 12);
+  const ht = 3 + (h % 16);
+  return [
+    { label: "Category", value: categoryName(p.category) },
+    { label: "Material", value: materials[h % materials.length] },
+    { label: "Dimensions", value: `${w} × ${d} × ${ht} cm` },
+    { label: "Weight", value: `${weight} kg` },
+    { label: "Ships from", value: origins[h % origins.length] },
+    { label: "Shipping", value: p.tags.some((t) => t.includes("Shipping")) ? "Free shipping" : "Calculated at checkout" },
+    { label: "Warranty", value: "1-year limited · 7-day returns" },
+    { label: "SKU", value: `YK-${p.id.toUpperCase()}-${(h % 900) + 100}` },
+  ];
 }

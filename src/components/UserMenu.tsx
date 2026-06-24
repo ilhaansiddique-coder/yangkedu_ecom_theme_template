@@ -68,7 +68,7 @@ export default function UserMenu() {
           aria-expanded={open}
           className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 text-ink hover:text-brand"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-canvas text-muted">
+          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-canvas text-muted">
             <User size={18} strokeWidth={2} />
           </span>
           <span className="text-[14px]">Log in</span>
@@ -118,7 +118,7 @@ export default function UserMenu() {
         aria-label="Account menu"
         className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 text-ink hover:text-brand"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-[#fb5621] to-[#e8290b] text-[13px] font-bold text-white">
+        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-r from-[#fb5621] to-[#e8290b] text-[13px] font-bold text-white">
           {initial}
         </span>
         <span className="max-w-[120px] truncate text-[14px]">{user.name}</span>

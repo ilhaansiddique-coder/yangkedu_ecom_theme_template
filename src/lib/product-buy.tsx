@@ -1,7 +1,14 @@
 "use client";
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import type { Variant } from "./products";
+import type { Product, Variant } from "./products";
+
+/** Build a cart line for a product + chosen variant (variant encoded in id + name). */
+export function lineFor(product: Product, variantLabel: string) {
+  const suffix = variantLabel ? ` (${variantLabel})` : "";
+  const id = product.id + (variantLabel ? `::${variantLabel}` : "");
+  return { id, name: product.name + suffix, image: product.image };
+}
 
 interface ProductBuyCtx {
   variants: Variant[];

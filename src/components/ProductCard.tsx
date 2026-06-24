@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import type { Product } from "@/lib/products";
 import { money, soldLabel } from "@/lib/format";
 import FavoriteButton from "./FavoriteButton";
+import AddToCartButton from "./AddToCartButton";
 
 /** Tags that read as a reassurance (rendered green with a check) vs a deal (red). */
 const GREEN_WORDS = ["Shipping", "Return", "Guarantee", "Safe", "Direct", "Fresh", "Ships", "Pay later"];
@@ -17,7 +18,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const tags = product.tags.filter((t) => t !== "Super Deal").slice(0, 2);
 
   return (
-    <Link href={`/product/${product.id}`} className="flex flex-col overflow-hidden rounded-[10px] bg-white">
+    <Link href={`/product/${product.id}`} className="flex flex-col overflow-hidden rounded-md bg-white">
       <div className="relative aspect-square w-full overflow-hidden bg-line">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={product.image} alt={product.name} className="h-full w-full object-cover" loading="lazy" />
@@ -50,12 +51,17 @@ export default function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="mt-auto flex items-baseline gap-1 pt-1">
-          <span className="font-display text-[19px] font-bold leading-none text-price">{money(product.price)}</span>
-          <span className="text-[11px] text-muted line-through">{money(product.singlePrice)}</span>
+        <div className="mt-auto pt-1">
+          {/* price + cart button aligned on the same row */}
+          <div className="flex items-center justify-between gap-1">
+            <div className="flex min-w-0 items-baseline gap-1">
+              <span className="font-display text-[19px] font-bold leading-none text-price">{money(product.price)}</span>
+              <span className="truncate text-[11px] text-muted line-through">{money(product.singlePrice)}</span>
+            </div>
+            <AddToCartButton product={product} />
+          </div>
+          <span className="mt-0.5 block text-[11px] text-muted">{soldLabel(product.sold)}</span>
         </div>
-
-        <span className="text-[11px] text-muted">{soldLabel(product.sold)}</span>
       </div>
     </Link>
   );

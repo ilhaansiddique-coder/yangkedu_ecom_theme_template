@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Search, ShoppingCart } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useCartUI } from "@/lib/cart-ui";
+import SearchBox from "./SearchBox";
 import UserMenu from "./UserMenu";
 
 const NAV = [
@@ -16,15 +17,8 @@ const NAV = [
 /** Website top bar — only visible on desktop (lg+). */
 export default function DesktopHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const { count } = useCart();
   const { openCart } = useCartUI();
-
-  function submitSearch(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const value = (new FormData(e.currentTarget).get("q") as string)?.trim();
-    if (value) router.push(`/search?q=${encodeURIComponent(value)}`);
-  }
 
   return (
     <header className="sticky top-0 z-40 hidden border-b border-line bg-white lg:block">
@@ -37,17 +31,7 @@ export default function DesktopHeader() {
 
         {/* center: search + nav (mx-auto keeps this block centered) */}
         <div className="mx-auto flex items-center gap-6 px-6">
-          <form onSubmit={submitSearch} className="flex h-10 w-[440px] items-center gap-2 rounded-full border-2 border-brand bg-white pl-4 pr-1">
-            <Search size={18} className="text-muted" />
-            <input
-              name="q"
-              className="min-w-0 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-muted"
-              placeholder="Search for products, brands and more"
-            />
-            <button type="submit" className="rounded-full bg-gradient-to-r from-[#fb5621] to-[#e8290b] px-6 py-1.5 text-[13px] font-semibold text-white">
-              Search
-            </button>
-          </form>
+          <SearchBox variant="desktop" placeholder="Search for products, brands and more" />
 
           <nav className="flex items-center gap-6 text-[14px]">
             {NAV.map((n) => {

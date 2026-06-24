@@ -115,6 +115,7 @@ export default function OrderDetailPage() {
           <Row label="Subtotal" value={money(order.subtotal)} muted />
           {order.discount > 0 && <Row label="Discount" value={`−${money(order.discount)}`} muted />}
           <Row label="Shipping" value={order.shipping === 0 ? "Free" : money(order.shipping)} muted />
+          {order.tax > 0 && <Row label="Estimated taxes" value={money(order.tax)} muted />}
           <div className="mt-2 flex items-baseline justify-between border-t border-line pt-2.5">
             <span className="text-[14px] text-ink">Total</span>
             <span className="font-display text-[20px] font-bold text-price">{money(order.total)}</span>
