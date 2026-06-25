@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Truck } from "lucide-react";
 import ContentPage, { H2, P, UL } from "@/components/ContentPage";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ const TABLE = [
 export default function ShippingPage() {
   return (
     <ContentPage
+      icon={Truck}
       title="Shipping & Returns"
       subtitle="Fast delivery and worry-free returns on every order."
       crumbs={[{ label: "Shipping & Returns" }]}

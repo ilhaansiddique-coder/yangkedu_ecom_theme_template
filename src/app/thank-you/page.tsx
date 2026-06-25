@@ -53,7 +53,7 @@ function ThankYouView() {
                     <img src={it.image} alt={it.name} className="h-full w-full object-cover" />
                   </span>
                   <div className="flex min-w-0 flex-1 flex-col">
-                    <p className="line-clamp-2 text-[13px] text-ink">{it.name}</p>
+                    <p className="line-clamp-2 text-[13px] text-ink lg:text-[14px]">{it.name}</p>
                     <div className="mt-auto flex justify-between">
                       <span className="font-display text-[14px] font-bold text-price">{money(it.price)}</span>
                       <span className="text-[12px] text-muted">x{it.qty}</span>

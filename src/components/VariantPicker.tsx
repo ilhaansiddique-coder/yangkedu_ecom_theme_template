@@ -28,7 +28,7 @@ export default function VariantPicker() {
         const isColor = v.label.toLowerCase() === "color";
         return (
           <div key={v.label}>
-            <p className="mb-2 text-[13px] text-muted">
+            <p className="mb-2 text-[13px] text-muted lg:text-[14px]">
               {v.label}: <span className="font-medium text-ink">{selected[v.label]}</span>
             </p>
 
@@ -65,7 +65,7 @@ export default function VariantPicker() {
                       type="button"
                       onClick={() => setOption(v.label, opt)}
                       aria-pressed={active}
-                      className={`min-w-[44px] rounded-md border px-3.5 py-2 text-[13px] font-medium ${
+                      className={`min-w-[44px] rounded-md border px-3.5 py-2 text-[13px] font-medium lg:text-[14px] ${
                         active ? "border-brand bg-pill text-brand" : "border-line bg-white text-ink"
                       }`}
                     >
@@ -81,7 +81,7 @@ export default function VariantPicker() {
 
       {/* quantity */}
       <div className="flex items-center gap-3">
-        <span className="text-[13px] text-muted">Quantity</span>
+        <span className="text-[13px] text-muted lg:text-[14px]">Quantity</span>
         <div className="flex items-center gap-3">
           <button
             type="button"

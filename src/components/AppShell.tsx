@@ -4,6 +4,7 @@ import DesktopHeader from "./DesktopHeader";
 import DesktopFooter from "./DesktopFooter";
 import CartDrawer from "./CartDrawer";
 import { CartUIProvider } from "@/lib/cart-ui";
+import { ToastProvider } from "@/lib/toast";
 
 /**
  * Responsive frame:
@@ -13,7 +14,8 @@ import { CartUIProvider } from "@/lib/cart-ui";
  */
 export default function AppShell({ children }: { children: ReactNode }) {
   return (
-    <CartUIProvider>
+    <ToastProvider>
+      <CartUIProvider>
       <div className="flex min-h-screen flex-col bg-canvas">
         <DesktopHeader />
 
@@ -25,6 +27,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <BottomTab />
         <CartDrawer />
       </div>
-    </CartUIProvider>
+      </CartUIProvider>
+    </ToastProvider>
   );
 }

@@ -38,7 +38,7 @@ export default function OrdersPage() {
           {orders.map((o) => (
             <Link key={o.id} href={`/orders/${o.id}`} className="block rounded-[10px] bg-white p-3 lg:p-4">
               <div className="flex items-center justify-between border-b border-line pb-2">
-                <span className="text-[13px] font-medium text-ink">{o.id}</span>
+                <span className="text-[13px] font-medium text-ink lg:text-[14px]">{o.id}</span>
                 <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${STATUS_STYLE[o.status]}`}>
                   {o.status}
                 </span>

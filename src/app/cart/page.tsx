@@ -69,11 +69,11 @@ export default function CartPage() {
           {/* desktop summary sidebar */}
           <aside className="hidden w-[320px] shrink-0 rounded-[10px] bg-white p-4 lg:block">
             <h3 className="mb-3 text-[16px] font-semibold text-ink">Order Summary</h3>
-            <div className="flex justify-between py-1 text-[14px] text-muted">
+            <div className="flex justify-between py-1 text-[14px] text-muted lg:text-[15px]">
               <span>Items ({count})</span>
               <span>{money(total)}</span>
             </div>
-            <div className="flex justify-between py-1 text-[14px] text-muted">
+            <div className="flex justify-between py-1 text-[14px] text-muted lg:text-[15px]">
               <span>Shipping</span>
               <span>Free</span>
             </div>

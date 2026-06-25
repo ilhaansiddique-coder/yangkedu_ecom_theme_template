@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a3c"/>
+      <stop offset="1" stop-color="#fb5621"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="480" fill="url(#g)"/>
+  <circle cx="1000" cy="110" r="170" fill="#ffffff" opacity="0.08"/>
+  <circle cx="880" cy="400" r="110" fill="#ffffff" opacity="0.07"/>
+  <!-- lightning bolts -->
+  <g fill="#ffffff">
+    <path d="M930 110 L860 270 L915 270 L880 380 L990 230 L935 230 Z" opacity="0.22"/>
+    <path d="M1085 180 L1040 280 L1075 280 L1052 350 L1120 250 L1085 250 Z" opacity="0.14"/>
+  </g>
+  <!-- sparkle dots -->
+  <g fill="#ffffff" opacity="0.5">
+    <circle cx="800" cy="150" r="4"/>
+    <circle cx="1010" cy="360" r="5"/>
+    <circle cx="760" cy="320" r="3"/>
+  </g>
+</svg>

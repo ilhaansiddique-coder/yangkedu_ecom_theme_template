@@ -5,7 +5,7 @@ import ProductGallery from "@/components/ProductGallery";
 import ProductPanel from "@/components/ProductPanel";
 import ProductTabs from "@/components/ProductTabs";
 import ProductReviews from "@/components/ProductReviews";
-import GroupBuyTicker from "@/components/GroupBuyTicker";
+import RelatedProducts from "@/components/RelatedProducts";
 import { ProductBuyProvider } from "@/lib/product-buy";
 import { getProduct, productVariants } from "@/lib/products";
 
@@ -26,9 +26,6 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           <ProductGallery images={product.gallery} alt={product.name} />
           <div className="px-4 py-4 lg:flex-1 lg:px-0 lg:py-0">
             <ProductPanel product={product} />
-            <div className="mt-4 lg:mt-5">
-              <GroupBuyTicker />
-            </div>
           </div>
         </div>
 
@@ -41,6 +38,9 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <div className="mt-2 lg:mt-4">
           <ProductReviews product={product} />
         </div>
+
+        {/* ── Section 5: related products ── */}
+        <RelatedProducts id={product.id} />
 
         {/* mobile sticky footer bar */}
         <AddToCartBar product={product} />

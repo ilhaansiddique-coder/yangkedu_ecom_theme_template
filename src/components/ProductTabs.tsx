@@ -11,7 +11,7 @@ export default function ProductTabs({ product }: { product: Product }) {
   const specs = productSpecs(product);
 
   const tabCls = (on: boolean) =>
-    `relative px-4 py-3 text-[14px] font-medium ${on ? "text-brand" : "text-muted"}`;
+    `relative px-4 py-3 text-[14px] font-medium lg:text-[16px] ${on ? "text-brand" : "text-muted"}`;
 
   return (
     <div className="bg-white lg:rounded-lg">
@@ -31,28 +31,34 @@ export default function ProductTabs({ product }: { product: Product }) {
         {tab === "desc" ? (
           <div>
             <p className="mb-4 text-[14px] leading-relaxed text-muted lg:text-[15px]">{product.desc}</p>
-            <h3 className="mb-2 text-[14px] font-semibold text-ink">Key benefits</h3>
+            <h3 className="mb-2 text-[14px] font-semibold text-ink lg:text-[16px]">Key benefits</h3>
             <ul className="space-y-2">
               {highlights.map((h) => (
-                <li key={h} className="flex items-start gap-2 text-[14px] text-ink">
+                <li key={h} className="flex items-start gap-2 text-[14px] text-ink lg:text-[15px]">
                   <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                   <span className="capitalize">{h}</span>
                 </li>
               ))}
             </ul>
 
-            {/* gallery imagery */}
-            <div className="mt-5 space-y-3 lg:mx-auto lg:max-w-[760px]">
+            {/* gallery imagery — horizontal scroll row */}
+            <div className="mt-5 flex gap-3 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
               {product.gallery.map((g, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={i} src={g} alt="" className="w-full rounded-lg" loading="lazy" />
+                <img
+                  key={i}
+                  src={g}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-square w-[240px] shrink-0 rounded-lg object-cover lg:w-[300px]"
+                />
               ))}
             </div>
           </div>
         ) : (
           <dl className="divide-y divide-line">
             {specs.map((s) => (
-              <div key={s.label} className="flex justify-between gap-4 py-2.5 text-[14px]">
+              <div key={s.label} className="flex justify-between gap-4 py-2.5 text-[14px] lg:text-[15px]">
                 <dt className="text-muted">{s.label}</dt>
                 <dd className="text-right font-medium text-ink">{s.value}</dd>
               </div>

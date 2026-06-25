@@ -120,7 +120,7 @@ export default function CartDrawer() {
                       <Link
                         href={`/product/${l.id.split("::")[0]}`}
                         onClick={closeCart}
-                        className="line-clamp-2 flex-1 text-[13px] leading-snug text-ink"
+                        className="line-clamp-2 flex-1 text-[13px] leading-snug text-ink lg:text-[14px]"
                       >
                         {l.name}
                       </Link>
@@ -135,7 +135,7 @@ export default function CartDrawer() {
                     </div>
 
                     <div className="mt-auto flex items-center justify-between pt-1">
-                      <span className="font-display text-[17px] font-bold text-price">{money(l.price)}</span>
+                      <span className="font-display text-[18px] font-bold text-price">{money(l.price)}</span>
                       <div className="flex items-center gap-2.5">
                         <button
                           type="button"

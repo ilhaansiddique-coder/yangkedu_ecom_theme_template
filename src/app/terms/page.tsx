@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FileText } from "lucide-react";
 import ContentPage, { H2, P, UL } from "@/components/ContentPage";
 
 export const metadata: Metadata = {
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <ContentPage
+      icon={FileText}
       title="Terms of Service"
       subtitle="Last updated: June 24, 2026"
       crumbs={[{ label: "Terms of Service" }]}

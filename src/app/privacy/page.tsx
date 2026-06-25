@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Lock } from "lucide-react";
 import ContentPage, { H2, P, UL } from "@/components/ContentPage";
 
 export const metadata: Metadata = {
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <ContentPage
+      icon={Lock}
       title="Privacy Policy"
       subtitle="Last updated: June 24, 2026"
       crumbs={[{ label: "Privacy Policy" }]}

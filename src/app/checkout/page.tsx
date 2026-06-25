@@ -26,6 +26,7 @@ import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { useAddresses } from "@/lib/addresses";
 import { useOrders, type Order } from "@/lib/orders";
+import { useToast } from "@/lib/toast";
 import { money } from "@/lib/format";
 
 const TAX_RATE = 0.05;
@@ -74,6 +75,7 @@ export default function CheckoutPage() {
   const { defaultAddress } = useAddresses();
   const { addOrder } = useOrders();
   const router = useRouter();
+  const toast = useToast();
 
   const [step, setStep] = useState<"shipping" | "payment">("shipping");
   const [method, setMethod] = useState("standard");
@@ -120,10 +122,13 @@ export default function CheckoutPage() {
     if (d === null) {
       setCoupon(null);
       setCouponError("Invalid code. Try SAVE5, GROUP10 or WELCOME15.");
+      toast("Invalid coupon code", "error");
       return;
     }
-    setCoupon({ code: couponInput.trim().toUpperCase(), discount: d });
+    const code = couponInput.trim().toUpperCase();
+    setCoupon({ code, discount: d });
     setCouponError("");
+    toast(`Coupon ${code} applied — saved ${money(d)}`);
   }
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {

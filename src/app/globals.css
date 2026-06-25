@@ -17,9 +17,11 @@
   --color-canvas: #f4f4f4;         /* app gray background */
   --color-pill: #fff1f0;           /* light-red tag background */
 
-  /* fonts — bound to next/font CSS variables in layout.tsx */
-  --font-sans: var(--font-inter), system-ui, "Noto Sans SC", sans-serif;
-  --font-display: var(--font-poppins), var(--font-inter), sans-serif;
+  /* fonts (bound in layout.tsx):
+     - sans  = Didact Gothic (Century Gothic look) for body text
+     - display = Poppins (real graduated weights) for headings / prices / logo */
+  --font-sans: var(--font-century), system-ui, "Noto Sans SC", sans-serif;
+  --font-display: var(--font-poppins), var(--font-century), system-ui, sans-serif;
 
   --radius-card: 10px;
 }
@@ -34,4 +36,42 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* All heading elements use the display font (Poppins) so their bold weights
+   render as real, distinct weights rather than synthesized faux-bold. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
+
+/* Interactive elements always show a pointer cursor (and not-allowed when disabled). */
+@layer base {
+  button,
+  [role="button"],
+  [role="menuitem"],
+  [role="option"],
+  a[href],
+  summary,
+  select,
+  label:has(input[type="radio"]),
+  label:has(input[type="checkbox"]),
+  input[type="radio"],
+  input[type="checkbox"],
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  input[type="file"] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"],
+  [disabled] {
+    cursor: not-allowed;
+  }
 }

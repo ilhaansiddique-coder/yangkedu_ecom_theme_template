@@ -26,8 +26,9 @@ export interface Banner {
   id: string;
   title: string;
   subtitle: string;
-  from: string; // gradient start
-  to: string; // gradient end
+  image: string; // hero background image (wide, desktop)
+  imageMobile: string; // shorter-aspect crop for the mobile banner
+  href: string; // where the banner links to
 }
 
 /**
@@ -51,9 +52,38 @@ export const categories: Category[] = [
 ];
 
 export const banners: Banner[] = [
-  { id: "b1", title: "Super Deals", subtitle: "Top brands, lowest prices every day", from: "#ff5a3c", to: "#e8290b" },
-  { id: "b2", title: "Lightning Deals", subtitle: "Flash sales on the hour — while stocks last", from: "#ff8a3c", to: "#fb5621" },
-  { id: "b3", title: "New User Zone", subtitle: "Group deals from $0.99 · free trials", from: "#ff6a8e", to: "#e2294f" },
+  {
+    id: "b1",
+    title: "Super Deals",
+    subtitle: "Top brands, lowest prices every day",
+    image: "/banners/super-deals.png",
+    imageMobile: "/banners/super-deals-m.png",
+    href: "/category?cat=subsidy",
+  },
+  {
+    id: "b2",
+    title: "Lightning Deals",
+    subtitle: "Flash sales on the hour — while stocks last",
+    image: "/banners/lightning-deals.png",
+    imageMobile: "/banners/lightning-deals-m.png",
+    href: "/category?cat=flash",
+  },
+  {
+    id: "b3",
+    title: "New User Zone",
+    subtitle: "Group deals from $0.99 · free trials",
+    image: "/banners/new-user.png",
+    imageMobile: "/banners/new-user-m.png",
+    href: "/shop",
+  },
+  {
+    id: "b4",
+    title: "Summer Mega Sale",
+    subtitle: "Up to 70% off · limited time only",
+    image: "/banners/summer-sale.png",
+    imageMobile: "/banners/summer-sale-m.png",
+    href: "/shop",
+  },
 ];
 
 export const products: Product[] = [
@@ -232,6 +262,15 @@ export function categoryName(id: string): string {
   return categories.find((c) => c.id === id)?.name ?? "All";
 }
 
+/** Products related to the given one — same category first, topped up with others. */
+export function relatedProducts(id: string, limit = 6): Product[] {
+  const current = getProduct(id);
+  if (!current) return [];
+  const sameCat = products.filter((p) => p.id !== id && p.category === current.category);
+  const others = products.filter((p) => p.id !== id && p.category !== current.category);
+  return [...sameCat, ...others].slice(0, limit);
+}
+
 /** Case-insensitive search over name, tags and category name. */
 export function searchProducts(query: string): Product[] {
   const q = query.trim().toLowerCase();
@@ -275,6 +314,24 @@ export function productRating(p: Product): number {
 export function productReviewCount(p: Product): number {
   return Math.max(18, Math.round(p.sold * 0.04));
 }
+
+/** At or below this remaining count, an item is flagged as "low stock". */
+export const LOW_STOCK_THRESHOLD = 10;
+
+/**
+ * Deterministic stock level. Most items are healthy, a few run low ("Only N
+ * left"), and roughly one sells out (0) — enough to exercise every UI state.
+ */
+export function productStock(p: Product): number {
+  const h = hash(p.id);
+  const bucket = h % 13;
+  if (bucket === 0) return 0; // sold out
+  if (bucket <= 3) return (h % 7) + 3; // low: 3–9 left
+  return 45 + (h % 320); // healthy
+}
+
+export const isSoldOut = (p: Product): boolean => productStock(p) === 0;
+export const isLowStock = (n: number): boolean => n > 0 && n <= LOW_STOCK_THRESHOLD;
 
 /** Selectable options per category (color / size etc.); empty when none apply. */
 export function productVariants(p: Product): Variant[] {

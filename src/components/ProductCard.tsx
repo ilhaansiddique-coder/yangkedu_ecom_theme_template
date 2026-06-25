@@ -1,6 +1,12 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
-import type { Product } from "@/lib/products";
+import { Check, Star } from "lucide-react";
+import {
+  type Product,
+  productRating,
+  productReviewCount,
+  productStock,
+  isLowStock,
+} from "@/lib/products";
 import { money, soldLabel } from "@/lib/format";
 import FavoriteButton from "./FavoriteButton";
 import AddToCartButton from "./AddToCartButton";
@@ -16,22 +22,57 @@ const isGreen = (t: string) => GREEN_WORDS.some((w) => t.includes(w));
  */
 export default function ProductCard({ product }: { product: Product }) {
   const tags = product.tags.filter((t) => t !== "Super Deal").slice(0, 2);
+  const off = Math.round((1 - product.price / product.singlePrice) * 100);
+  const rating = productRating(product);
+  const reviewCount = productReviewCount(product);
+  const stock = productStock(product);
+  const soldOut = stock === 0;
+  const lowStock = isLowStock(stock);
 
   return (
-    <Link href={`/product/${product.id}`} className="flex flex-col overflow-hidden rounded-md bg-white">
+    <Link
+      href={`/product/${product.id}`}
+      className="group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-line/60 transition-shadow hover:shadow-md"
+    >
       <div className="relative aspect-square w-full overflow-hidden bg-line">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={product.image} alt={product.name} className="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={product.image}
+          alt={product.name}
+          loading="lazy"
+          className={`h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+            soldOut ? "grayscale" : ""
+          }`}
+        />
         <FavoriteButton id={product.id} />
-        {product.tags.includes("Super Deal") && (
+        {product.tags.includes("Super Deal") && !soldOut && (
           <span className="absolute left-0 top-0 bg-gradient-to-r from-[#ff7a00] to-[#e8290b] px-1.5 py-0.5 text-[10px] font-bold text-white">
             Super Deal
           </span>
         )}
+        {off > 0 && (
+          <span className="absolute bottom-1.5 left-1.5 rounded-md bg-black/55 px-1.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
+            -{off}%
+          </span>
+        )}
+        {soldOut && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/45">
+            <span className="rounded-md bg-black/70 px-3 py-1 text-[12px] font-bold uppercase tracking-wide text-white">
+              Sold Out
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-2">
-        <p className="line-clamp-2 text-[13px] leading-snug text-ink">{product.name}</p>
+        <p className="line-clamp-2 text-[13px] leading-snug text-ink lg:text-[14px]">{product.name}</p>
+
+        {/* rating */}
+        <div className="flex items-center gap-1 text-[11px] text-muted">
+          <Star size={12} className="fill-[#ffb400] text-[#ffb400]" />
+          <span className="font-semibold text-ink">{rating.toFixed(1)}</span>
+          <span>({reviewCount.toLocaleString()})</span>
+        </div>
 
         <div className="flex flex-wrap gap-1">
           {tags.map((t) =>
@@ -55,12 +96,16 @@ export default function ProductCard({ product }: { product: Product }) {
           {/* price + cart button aligned on the same row */}
           <div className="flex items-center justify-between gap-1">
             <div className="flex min-w-0 items-baseline gap-1">
-              <span className="font-display text-[19px] font-bold leading-none text-price">{money(product.price)}</span>
+              <span className="font-display text-[20px] font-bold leading-none text-price">{money(product.price)}</span>
               <span className="truncate text-[11px] text-muted line-through">{money(product.singlePrice)}</span>
             </div>
-            <AddToCartButton product={product} />
+            <AddToCartButton product={product} disabled={soldOut} />
           </div>
-          <span className="mt-0.5 block text-[11px] text-muted">{soldLabel(product.sold)}</span>
+          {lowStock ? (
+            <span className="mt-0.5 block text-[11px] font-semibold text-brand-orange">Only {stock} left</span>
+          ) : (
+            <span className="mt-0.5 block text-[11px] text-muted">{soldLabel(product.sold)}</span>
+          )}
         </div>
       </div>
     </Link>

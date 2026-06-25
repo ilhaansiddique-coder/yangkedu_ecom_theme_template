@@ -6,9 +6,9 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Customer Service",
     links: [
       { label: "Help Center", href: "/help" },
-      { label: "How to Order", href: "/help" },
+      { label: "How to Order", href: "/how-to-order" },
       { label: "Shipping & Delivery", href: "/shipping" },
-      { label: "Returns & Refunds", href: "/shipping" },
+      { label: "Returns & Refunds", href: "/returns" },
       { label: "Contact Us", href: "/contact" },
     ],
   },
@@ -16,17 +16,17 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "About Yangkedu",
     links: [
       { label: "About Us", href: "/about" },
-      { label: "Careers", href: "/about" },
-      { label: "Press", href: "/about" },
-      { label: "Sustainability", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Press", href: "/press" },
+      { label: "Sustainability", href: "/sustainability" },
       { label: "Shop All", href: "/shop" },
     ],
   },
   {
     title: "Payment & Security",
     links: [
-      { label: "Payment Methods", href: "/help" },
-      { label: "Buyer Protection", href: "/help" },
+      { label: "Payment Methods", href: "/payment-methods" },
+      { label: "Buyer Protection", href: "/buyer-protection" },
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
     ],
@@ -47,7 +47,7 @@ export default function DesktopFooter() {
         {COLUMNS.map((col) => (
           <div key={col.title}>
             <h4 className="mb-3 text-[14px] font-semibold text-ink">{col.title}</h4>
-            <ul className="space-y-2 text-[13px] text-muted">
+            <ul className="space-y-2 text-[13px] text-muted lg:text-[14px]">
               {col.links.map((l) => (
                 <li key={l.label}>
                   <Link href={l.href} className="hover:text-brand">

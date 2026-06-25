@@ -71,7 +71,7 @@ export default function UserMenu() {
           <span className="flex h-8 w-8 items-center justify-center rounded-md bg-canvas text-muted">
             <User size={18} strokeWidth={2} />
           </span>
-          <span className="text-[14px]">Log in</span>
+          <span className="text-[16px]">Log in</span>
         </button>
 
         {open && hydrated && (
@@ -121,7 +121,7 @@ export default function UserMenu() {
         <span className="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-r from-[#fb5621] to-[#e8290b] text-[13px] font-bold text-white">
           {initial}
         </span>
-        <span className="max-w-[120px] truncate text-[14px]">{user.name}</span>
+        <span className="max-w-[120px] truncate text-[16px]">{user.name}</span>
       </button>
 
       {open && (

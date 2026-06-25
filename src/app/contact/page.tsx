@@ -16,6 +16,7 @@ export default function ContactPage() {
 
   return (
     <ContentPage
+      icon={Mail}
       title="Contact Us"
       subtitle="We usually reply within a few hours."
       crumbs={[{ label: "Contact Us" }]}

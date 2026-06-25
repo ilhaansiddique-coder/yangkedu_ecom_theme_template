@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Info } from "lucide-react";
 import ContentPage, { H2, P, UL } from "@/components/ContentPage";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ const STATS = [
 export default function AboutPage() {
   return (
     <ContentPage
+      icon={Info}
       title="About Yangkedu"
       subtitle="Team up, buy together, and pay less."
       crumbs={[{ label: "About Us" }]}

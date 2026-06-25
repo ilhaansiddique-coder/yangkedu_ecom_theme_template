@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ShoppingCart, Zap } from "lucide-react";
+import { ShoppingCart, Zap, PackageX } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useCartUI } from "@/lib/cart-ui";
 import { useProductBuy, lineFor } from "@/lib/product-buy";
 import { money } from "@/lib/format";
-import type { Product } from "@/lib/products";
+import { type Product, productStock } from "@/lib/products";
 
 /** Sticky mobile footer bar (price + Add to Cart + Buy Now), pinned while scrolling. */
 export default function AddToCartBar({ product }: { product: Product }) {
@@ -14,6 +14,7 @@ export default function AddToCartBar({ product }: { product: Product }) {
   const { openCart } = useCartUI();
   const { qty, variantLabel } = useProductBuy();
   const router = useRouter();
+  const soldOut = productStock(product) === 0;
 
   function addToCart() {
     add({ ...lineFor(product, variantLabel), price: product.price }, qty);
@@ -30,20 +31,32 @@ export default function AddToCartBar({ product }: { product: Product }) {
         <span className="block font-display text-[18px] font-extrabold leading-none text-price">{money(product.price)}</span>
         <span className="block text-[11px] text-muted line-through">{money(product.singlePrice)}</span>
       </div>
-      <button
-        type="button"
-        onClick={addToCart}
-        className="flex flex-1 items-center justify-center gap-1.5 rounded-full border-2 border-brand py-2.5 text-[14px] font-semibold text-brand"
-      >
-        <ShoppingCart size={16} /> Add to Cart
-      </button>
-      <button
-        type="button"
-        onClick={buyNow}
-        className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#fb5621] to-[#e8290b] py-2.5 text-[14px] font-bold text-white"
-      >
-        <Zap size={16} /> Buy Now
-      </button>
+      {soldOut ? (
+        <button
+          type="button"
+          disabled
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-line py-2.5 text-[14px] font-semibold text-muted"
+        >
+          <PackageX size={16} /> Sold Out
+        </button>
+      ) : (
+        <>
+          <button
+            type="button"
+            onClick={addToCart}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full border-2 border-brand py-2.5 text-[14px] font-semibold text-brand"
+          >
+            <ShoppingCart size={16} /> Add to Cart
+          </button>
+          <button
+            type="button"
+            onClick={buyNow}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#fb5621] to-[#e8290b] py-2.5 text-[14px] font-bold text-white"
+          >
+            <Zap size={16} /> Buy Now
+          </button>
+        </>
+      )}
     </div>
   );
 }

@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useCartUI } from "@/lib/cart-ui";
+import { useFavorites } from "@/lib/favorites";
 import SearchBox from "./SearchBox";
 import UserMenu from "./UserMenu";
 
@@ -18,6 +19,7 @@ const NAV = [
 export default function DesktopHeader() {
   const pathname = usePathname();
   const { count } = useCart();
+  const { count: favCount } = useFavorites();
   const { openCart } = useCartUI();
 
   return (
@@ -33,11 +35,11 @@ export default function DesktopHeader() {
         <div className="mx-auto flex items-center gap-6 px-6">
           <SearchBox variant="desktop" placeholder="Search for products, brands and more" />
 
-          <nav className="flex items-center gap-6 text-[14px]">
+          <nav className="flex items-center gap-7 text-[16px] font-semibold">
             {NAV.map((n) => {
               const active = n.href === "/" ? pathname === "/" : pathname.startsWith(n.href);
               return (
-                <Link key={n.href} href={n.href} className={active ? "font-semibold text-brand" : "text-ink hover:text-brand"}>
+                <Link key={n.href} href={n.href} className={active ? "font-bold text-brand" : "text-ink hover:text-brand"}>
                   {n.label}
                 </Link>
               );
@@ -45,10 +47,19 @@ export default function DesktopHeader() {
           </nav>
         </div>
 
-        {/* right edge: cart + account */}
-        <div className="flex shrink-0 items-center gap-5 text-[14px]">
-          <button type="button" onClick={openCart} className="relative flex items-center gap-1 text-ink hover:text-brand">
-            <ShoppingCart size={18} />
+        {/* right edge: favorites + cart + account */}
+        <div className="flex shrink-0 items-center gap-5 text-[16px] font-semibold">
+          <Link href="/wishlist" className="relative flex items-center gap-1.5 text-ink hover:text-brand">
+            <Heart size={20} className={pathname.startsWith("/wishlist") ? "fill-brand text-brand" : ""} />
+            <span>Saved</span>
+            {favCount > 0 && (
+              <span className="ml-0.5 min-w-[18px] rounded-full bg-brand px-1 text-center text-[11px] font-bold leading-[18px] text-white">
+                {favCount}
+              </span>
+            )}
+          </Link>
+          <button type="button" onClick={openCart} className="relative flex items-center gap-1.5 text-ink hover:text-brand">
+            <ShoppingCart size={20} />
             <span>Cart</span>
             {count > 0 && (
               <span className="ml-0.5 min-w-[18px] rounded-full bg-brand px-1 text-center text-[11px] font-bold leading-[18px] text-white">

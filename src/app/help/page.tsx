@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LifeBuoy } from "lucide-react";
 import ContentPage, { H2, P } from "@/components/ContentPage";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ const FAQS: { q: string; a: string }[] = [
 export default function HelpPage() {
   return (
     <ContentPage
+      icon={LifeBuoy}
       title="Help Center"
       subtitle="Quick answers to the questions we hear most."
       crumbs={[{ label: "Help Center" }]}

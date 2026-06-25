@@ -62,7 +62,7 @@ export default function MePage() {
             <User size={40} strokeWidth={1.5} />
           </span>
           <div>
-            <p className="text-[17px] font-bold text-ink">You&apos;re not logged in</p>
+            <p className="text-[18px] font-bold text-ink">You&apos;re not logged in</p>
             <p className="mt-1 text-[13px] text-muted">Log in to view orders, favorites and group buys.</p>
           </div>
           <div className="flex w-full gap-2">
@@ -161,7 +161,7 @@ export default function MePage() {
                   ))}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13px] font-medium text-ink">{o.id}</p>
+                  <p className="truncate text-[13px] font-medium text-ink lg:text-[14px]">{o.id}</p>
                   <p className="text-[11px] text-muted">{o.status}</p>
                 </div>
                 <span className="font-display text-[14px] font-bold text-price">{money(o.total)}</span>
